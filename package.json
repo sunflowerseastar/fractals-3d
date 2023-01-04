@@ -1,0 +1,31 @@
+{
+  "name": "fractals-3d",
+  "version": "0.1.0",
+  "author": "Grant Surlyn <grant@sunflowerseastar.com>",
+  "license": "GPL-3.0",
+  "scripts": {
+    "build": "esbuild src/main.ts --bundle --minify --outfile=public/out.js",
+    "dev": "node dev.js",
+    "prettier:check": "prettier --check '**/*.{ts,js,css,json}'",
+    "prettier:write": "prettier --write '**/*.{ts,js,css,json}'",
+    "start": "node dev.js"
+  },
+  "simple-git-hooks": {
+    "pre-commit": "npx lint-staged"
+  },
+  "lint-staged": {
+    "*.{tsx,js,css,md,json}": [
+      "prettier --write"
+    ]
+  },
+  "dependencies": {
+    "three": "^0.148.0"
+  },
+  "devDependencies": {
+    "@types/three": "^0.148.0",
+    "lint-staged": "^13.1.0",
+    "prettier": "^2.8.1",
+    "simple-git-hooks": "^2.8.1",
+    "typescript": "^4.9.4"
+  }
+}

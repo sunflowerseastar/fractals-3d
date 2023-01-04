@@ -1,0 +1,4 @@
+* reference
+
+- https://threejs.org/docs/scenes/geometry-browser.html#TubeGeometry
+- https://gist.github.com/calvin/ffc992a541d2e12b7936911c0ef989b4

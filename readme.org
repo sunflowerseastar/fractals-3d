@@ -1,0 +1,35 @@
+* Fractals 3D
+
+Written with [[https://threejs.org/][three.js]].
+
+* Quick Start
+
+Dev:
+
+#+begin_src sh
+# install deps
+yarn
+# run dev.js esbuild watcher
+yarn start
+# visit localhost:8080 (separate terminal)
+npx http-server
+#+end_src
+
+Build:
+
+#+begin_src sh
+# minified esbuild
+yarn build
+#+end_src
+
+Both ~yarn start~ and ~yarn build~ create a ~public/out.js~ bundle.
+
+* Structure
+
+- ~public/~ - static html/css + dev & build output
+  - ~index.html~ - simple markup
+  - ~style.css~ - simple styles
+  - ~out.js~ - bundle file from ~yarn start~ or ~yarn build~
+- ~src/~ - js to be bundled
+  - ~main.ts~ - entry for index.html
+  - ~Path3.ts~ - helper Curve class for TubeGeometry

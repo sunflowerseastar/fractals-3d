@@ -1,0 +1,18 @@
+:root {
+  --light-gray: #999;
+  --gray: #666;
+  --dark-gray: #444;
+
+  --space-xs: 0.36em;
+  --space-sm: 0.6em;
+  --space-md: 1.8em;
+}
+body {
+  background: #242424;
+  margin: 0;
+  font-family: system-ui, sans-serif;
+  letter-spacing: 0.05em;
+}
+::selection {
+  background-color: transparent;
+}
