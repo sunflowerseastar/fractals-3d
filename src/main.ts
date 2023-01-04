@@ -1,5 +1,7 @@
 import {
   DoubleSide,
+  Euler,
+  Matrix3,
   Mesh,
   MeshPhongMaterial,
   PerspectiveCamera,
@@ -14,34 +16,42 @@ import { createCamera } from "./threejs-helpers/camera";
 import { createScene } from "./threejs-helpers/scene";
 import { createRenderer } from "./threejs-helpers/renderer";
 import { Path3 } from "./Path3";
-import { getSentence, turtleReturnDrawPoints } from "./utility";
+import { genTurtle3dVectorPath } from "./utility";
 
 let camera: PerspectiveCamera;
 let renderer: WebGLRenderer;
 let scene: Scene;
 
 function main() {
-  const g1 = {
-    name: "basic",
-    variables: "F",
-    start: "F",
+  // note that delta of 90 is assumed
+  const hilbert2dPath = {
+    variables: "LR",
+    axiom: "L",
     rules: {
-      // F: "F+F--F+F",
-      F: "F+F-",
+      L: "+RF-LFL-FR+",
+      R: "-LF+RFR+FL-",
     },
     actions: {
       F: "forward",
-      "+": "left",
-      "-": "right",
+      "+": "turn left",
+      "-": "turn right",
     },
-    startingAngle: 60,
-    delta: 60,
-    maxIterations: 6,
   };
-
-  const z1 = getSentence(g1, 2);
-  const z2 = turtleReturnDrawPoints(0, 90, g1, z1);
-  console.log("z2", z2);
+  const hilbert3dPath = {
+    variables: "X",
+    axiom: "X",
+    rules: { X: "^<XFF^<XFFX-FF^>>XFFX&FF+>>XFFX-FF>X->" },
+    actions: {
+      F: "forward",
+      f: "forward",
+      "+": "turn left",
+      "-": "turn right",
+      "&": "pitch down",
+      "^": "pitch up",
+      "<": "roll left",
+      ">": "roll right",
+    },
+  };
 
   const container: HTMLDivElement = document.querySelector("#scene-container")!;
 
@@ -51,23 +61,20 @@ function main() {
 
   container.append(renderer.domElement);
 
-  var path4 = new Path3([
-    new Vector3(0, 0, 0),
-    new Vector3(10, 0, 0),
-    new Vector3(10, 10, 0),
-    new Vector3(0, 10, 0),
-    new Vector3(0, 10, 10),
-    new Vector3(10, 10, 10),
-    new Vector3(10, 0, 10),
-    new Vector3(0, 0, 10),
-  ]);
-  const pathSegments = 64;
-  const tubeRadius = 0.35;
+  const numIterations = 3;
+
+  const hilbertPath = genTurtle3dVectorPath(hilbert3dPath, numIterations);
+  // console.log('hilbertPath', hilbertPath);
+
+  const path = new Path3(hilbertPath);
+  const pathSegments = 65536;
+  // const pathSegments = 256;
+  const tubeRadius = 0.5;
   const radiusSegments = 32;
   const closed = false;
 
   var geometry4 = new TubeGeometry(
-    path4,
+    path,
     pathSegments,
     tubeRadius,
     radiusSegments,
@@ -76,8 +83,7 @@ function main() {
 
   const meshMaterial = new MeshPhongMaterial({
     color: 0x000000,
-    emissive: 0xfaedb9, // yellow
-    // emissive: 0xa8e5ac, // green
+    emissive: 0xfaedb9,
     side: DoubleSide,
     flatShading: true,
   });

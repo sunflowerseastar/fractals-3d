@@ -1,4 +1,114 @@
+* misc
+
+#+begin_src js
+  const pathHilbert = new Path3([
+    new Vector3(0, 0, 0),
+    new Vector3(10, 0, 0),
+    new Vector3(10, 10, 0),
+    new Vector3(0, 10, 0),
+    new Vector3(0, 10, 10),
+    new Vector3(10, 10, 10),
+    new Vector3(10, 0, 10),
+    new Vector3(0, 0, 10),
+  ]);
+
+  const meshMaterial = new MeshPhongMaterial({
+    color: 0x000000,
+    emissive: 0xfaedb9, // yellow
+    // emissive: 0xa8e5ac, // green
+    side: DoubleSide,
+    flatShading: true,
+  });
+
+#+end_src
+
+** test quaternions
+
+#+begin_src js
+// http://www.euclideanspace.com/maths/geometry/rotations/conversions/angleToQuaternion/examples/index.htm
+import { Matrix3, Matrix4, Quaternion, Vector3 } from "three";
+
+const radians = (deg: number) => (Math.PI * deg) / 180.0;
+
+export const testQuaternions = () => {
+  console.log("testQuaternions");
+
+  let heading = new Vector3();
+  console.log("heading", heading);
+  let headingm3 = new Matrix3();
+  console.log("headingm3", headingm3);
+  let headingm4 = new Matrix4();
+  console.log("headingm4", headingm4);
+
+  // rotate by 90 degrees about y axis
+  const quaternion = new Quaternion();
+  // q = 0.7071 + j 0.7071
+  // const ru90 = quaternion.setFromAxisAngle(new Vector3(0, 1, 0), radians(90));
+  // const ru180 = quaternion.setFromAxisAngle(new Vector3(0, 1, 0), radians(180));
+
+  // console.log("ru90", ru90);
+
+  // const x = heading.applyQuaternion(ru90);
+  // console.log("x", x);
+
+  // const xm3 = headingm3.makeRotationFromQuaternion(ru90)
+  // console.log('xm3', xm3);
+  // const xm3b = headingm3.makeRotationFromQuaternion(ru180)
+  // console.log('xm3b', xm3b);
+
+  // const xm4 = headingm4.makeRotationFromQuaternion(ru90)
+  // console.log('xm4', xm4);
+  // const xm4b = headingm4.makeRotationFromQuaternion(ru180)
+  // console.log('xm4b', xm4b);
+
+  const ru = (d: number) => [
+    Math.cos(d),
+    Math.sin(d),
+    0,
+    -1 * Math.sin(d),
+    Math.cos(d),
+    0,
+    0,
+    0,
+    1,
+  ];
+  const ru90 = ru(radians(90));
+  console.log("ru90", ru90);
+  const ru90m = new Matrix3();
+  ru90m.fromArray(ru90);
+  console.log("ru90m", ru90m);
+
+  const a1 = headingm3.clone().multiply(ru90m);
+  console.log("a1", a1);
+};
+
+#+end_src
+
 * reference
 
 - https://threejs.org/docs/scenes/geometry-browser.html#TubeGeometry
 - https://gist.github.com/calvin/ffc992a541d2e12b7936911c0ef989b4
+
+- https://threejs.org/docs/?q=tube#api/en/geometries/TubeGeometry
+- https://math.stackexchange.com/questions/4305364/turtle-geometry-in-3d
+- https://dustinpfister.github.io/2022/02/04/threejs-vector3-set-from-spherical-coords/
+- http://www.opengl-tutorial.org/assets/faq_quaternions/index.html
+- http://www.euclideanspace.com/maths/geometry/rotations/index.htm
+  - http://www.euclideanspace.com/maths/geometry/rotations/conversions/angleToQuaternion/examples/index.htm
+- !! https://comp.graphics.algorithms.narkive.com/730JV1kJ/3d-turtle-graphics-lsystems-help
+
+
+
+https://stackoverflow.com/a/67083743/1052412
+
+#+begin_src js
+ellipse.rotation.x += rx;
+ellipse.rotation.z += rz;
+
+// Create new rotation object
+const yQuaternion = new THREE.Quaternion();
+yQuaternion.setFromAxisAngle(yax, ry);
+
+// Multiply the ellipse's rotation with the y-axis rotation
+ellipse.quaternion.multiply(yQuaternion);
+#+end_src
