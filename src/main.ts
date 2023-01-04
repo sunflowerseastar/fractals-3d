@@ -14,7 +14,7 @@ import { createCamera } from "./threejs-helpers/camera";
 import { createScene } from "./threejs-helpers/scene";
 import { createRenderer } from "./threejs-helpers/renderer";
 import { Path3 } from "./Path3";
-import { getSentence, rewriteSentence } from "./utility";
+import { getSentence, turtleReturnDrawPoints } from "./utility";
 
 let camera: PerspectiveCamera;
 let renderer: WebGLRenderer;
@@ -40,7 +40,8 @@ function main() {
   };
 
   const z1 = getSentence(g1, 2);
-  // console.log("z1", z1);
+  const z2 = turtleReturnDrawPoints(0, 90, g1, z1);
+  console.log("z2", z2);
 
   const container: HTMLDivElement = document.querySelector("#scene-container")!;
 
