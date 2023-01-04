@@ -6,6 +6,7 @@ import {
   Scene,
   TubeGeometry,
   Vector3,
+  WebGLRenderer,
 } from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 
@@ -13,12 +14,34 @@ import { createCamera } from "./threejs-helpers/camera";
 import { createScene } from "./threejs-helpers/scene";
 import { createRenderer } from "./threejs-helpers/renderer";
 import { Path3 } from "./Path3";
+import { getSentence, rewriteSentence } from "./utility";
 
 let camera: PerspectiveCamera;
-let renderer;
+let renderer: WebGLRenderer;
 let scene: Scene;
 
 function main() {
+  const g1 = {
+    name: "basic",
+    variables: "F",
+    start: "F",
+    rules: {
+      // F: "F+F--F+F",
+      F: "F+F-",
+    },
+    actions: {
+      F: "forward",
+      "+": "left",
+      "-": "right",
+    },
+    startingAngle: 60,
+    delta: 60,
+    maxIterations: 6,
+  };
+
+  const z1 = getSentence(g1, 2);
+  // console.log("z1", z1);
+
   const container: HTMLDivElement = document.querySelector("#scene-container")!;
 
   camera = createCamera();
