@@ -7,6 +7,9 @@
   --space-sm: 0.6em;
   --space-md: 1.8em;
 }
+html {
+  overflow: hidden;
+}
 body {
   background: #f4f4f4;
   margin: 0;

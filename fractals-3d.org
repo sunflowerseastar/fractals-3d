@@ -96,6 +96,7 @@ export const testQuaternions = () => {
 - http://www.euclideanspace.com/maths/geometry/rotations/index.htm
   - http://www.euclideanspace.com/maths/geometry/rotations/conversions/angleToQuaternion/examples/index.htm
 - !! https://comp.graphics.algorithms.narkive.com/730JV1kJ/3d-turtle-graphics-lsystems-help
+- !! https://math.stackexchange.com/a/125452
 
 
 

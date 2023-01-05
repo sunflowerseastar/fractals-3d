@@ -22,9 +22,18 @@ let camera: PerspectiveCamera;
 let renderer: WebGLRenderer;
 let scene: Scene;
 
+export type Grammar = {
+  variables: string;
+  axiom: string;
+  rules: {
+    [key: string]: string;
+  };
+  actions: object;
+};
+
 function main() {
   // note that delta of 90 is assumed
-  const hilbert2dPath = {
+  const hilbert2dPath: Grammar = {
     variables: "LR",
     axiom: "L",
     rules: {
@@ -37,13 +46,12 @@ function main() {
       "-": "turn right",
     },
   };
-  const hilbert3dPath = {
+  const hilbert3dPath: Grammar = {
     variables: "X",
     axiom: "X",
     rules: { X: "^<XFF^<XFFX-FF^>>XFFX&FF+>>XFFX-FF>X->" },
     actions: {
       F: "forward",
-      f: "forward",
       "+": "turn left",
       "-": "turn right",
       "&": "pitch down",
