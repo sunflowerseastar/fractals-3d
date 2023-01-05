@@ -64,12 +64,11 @@ function main() {
   const numIterations = 3;
 
   const hilbertPath = genTurtle3dVectorPath(hilbert3dPath, numIterations);
-  // console.log('hilbertPath', hilbertPath);
 
   const path = new Path3(hilbertPath);
-  const pathSegments = 65536;
-  // const pathSegments = 256;
-  const tubeRadius = 0.5;
+
+  const pathSegments = Math.pow(16, numIterations);
+  const tubeRadius = 1;
   const radiusSegments = 32;
   const closed = false;
 
@@ -83,9 +82,10 @@ function main() {
 
   const meshMaterial = new MeshPhongMaterial({
     color: 0x000000,
-    emissive: 0xfaedb9,
+    emissive: 0x242424,
+    shininess: 100,
     side: DoubleSide,
-    flatShading: true,
+    flatShading: false,
   });
   const mesh = new Mesh(geometry4, meshMaterial);
   scene.add(mesh);
@@ -93,10 +93,13 @@ function main() {
   const controls = new OrbitControls(camera, renderer.domElement);
   controls.enableDamping = true;
   controls.dampingFactor = 0.3;
+  controls.autoRotate = true;
+  controls.autoRotateSpeed = 0.2;
 
   function render() {
     requestAnimationFrame(render);
     renderer.render(scene, camera);
+    controls.update()
   }
   render();
 }

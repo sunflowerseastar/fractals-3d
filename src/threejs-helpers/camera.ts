@@ -7,7 +7,7 @@ function createCamera() {
     1,
     1000
   );
-  camera.position.set(36, 48, 132);
+  camera.position.set(76, 58, 90);
 
   return camera;
 }

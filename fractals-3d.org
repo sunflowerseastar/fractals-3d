@@ -112,3 +112,5 @@ yQuaternion.setFromAxisAngle(yax, ry);
 // Multiply the ellipse's rotation with the y-axis rotation
 ellipse.quaternion.multiply(yQuaternion);
 #+end_src
+
+- https://sketchfab.com/blogs/community/art-spotlight-primary-ion-drive/
