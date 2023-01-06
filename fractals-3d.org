@@ -98,6 +98,7 @@ export const testQuaternions = () => {
 - !! https://comp.graphics.algorithms.narkive.com/730JV1kJ/3d-turtle-graphics-lsystems-help
 - !! https://math.stackexchange.com/a/125452
 
+- https://oeis.org/A024088 ('7 63 511 4095 32767' is the sequence for number of line segments drawn for 3d hilbert cube -- note, two straights in a row are still counted as 2)
 
 
 https://stackoverflow.com/a/67083743/1052412

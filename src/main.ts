@@ -69,13 +69,18 @@ function main() {
 
   container.append(renderer.domElement);
 
-  const numIterations = 3;
+  // use URL hash to set numIterations
+  const hashIterations = Math.min(
+    Math.max(1, parseInt(document.location.hash.slice(1))),
+    4
+  );
+  const numIterations = !isNaN(hashIterations) ? hashIterations : 3;
   const hilbertPath = genTurtle3dVectorPath(hilbert3dPath, numIterations);
   const path = new Path3(hilbertPath);
 
   const base = 28 - numIterations * 4;
   const pathSegments = Math.max(Math.pow(base, numIterations), 1024);
-  const tubeRadiusLookup = { 4: 0.92, 3: 1.2, 2: 2.4, 1: 2.4 };
+  const tubeRadiusLookup = [2.4, 2.4, 2.4, 1.2, 0.92];
   const tubeRadius = tubeRadiusLookup[numIterations];
   const radiusSegments = 32;
   const closed = false;
