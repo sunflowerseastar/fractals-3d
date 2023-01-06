@@ -21,7 +21,7 @@ const getSentenceRec = (
 export const getSentence = (grammar: Grammar, n: number) =>
   getSentenceRec(grammar, n, grammar.axiom.split(""));
 
-// turtle helpers
+// turtle
 const rotationMatrixRU = (d: number) => [
   Math.cos(d),
   0,
@@ -68,68 +68,30 @@ const rotationMatrices: RotationMatrices = {
   ">": new Matrix3().fromArray(rotationMatrixRH(radians(90))),
 };
 
-// turtle
-type Turtle3dRec = (
-  grammar: Grammar,
-  stepSize: number,
-  letters: string[],
-  heading: Matrix3,
-  currentPoint: Vector3,
-  acc: Vector3[]
-) => Vector3[];
-const turtle3dRec: Turtle3dRec = (
-  grammar,
-  stepSize,
-  letters,
-  heading,
-  currentPoint,
-  acc
-) => {
-  if (letters.length <= 0) {
-    return acc;
-  } else {
-    const action = letters[0];
-
-    const isRotation = typeof rotationMatrices[action] !== "undefined";
-
-    const newHeading = isRotation
-      ? heading.clone().multiply(rotationMatrices[action])
-      : heading;
-
-    const newPosition: Vector3 =
-      action === "F"
-        ? currentPoint
-            .clone()
-            .add(new Vector3(stepSize, 0, 0).applyMatrix3(heading).round())
-        : currentPoint;
-    const newAcc = action === "F" ? [...acc, newPosition] : acc;
-
-    return turtle3dRec(
-      grammar,
-      stepSize,
-      letters.slice(1),
-      newHeading,
-      newPosition,
-      newAcc
-    );
-  }
-};
-
 export const turtle3d = (
   grammar: Grammar,
   stepSize: number,
   sentence: string[],
   startingPoint: Vector3
 ) => {
-  const initialHeading = new Matrix3();
-  return turtle3dRec(
-    grammar,
-    stepSize,
-    sentence,
-    initialHeading,
-    startingPoint,
-    [startingPoint]
-  );
+  let turtlePath = [startingPoint];
+  let turtleHeading = new Matrix3();
+  let turtlePosition = startingPoint;
+
+  for (let action of sentence) {
+    if (typeof rotationMatrices[action] !== "undefined") {
+      // update heading by applying a rotation matrix
+      turtleHeading.multiply(rotationMatrices[action]);
+    } else if (action === "F") {
+      // move forward
+      const newPosition2: Vector3 = turtlePosition
+        .clone()
+        .add(new Vector3(stepSize, 0, 0).applyMatrix3(turtleHeading).round());
+      turtlePosition = newPosition2;
+      turtlePath.push(newPosition2);
+    }
+  }
+  return turtlePath;
 };
 
 export const genTurtle3dVectorPath = (grammar: Grammar, n: number) => {
@@ -142,6 +104,5 @@ export const genTurtle3dVectorPath = (grammar: Grammar, n: number) => {
     startingDistanceFromCenter
   );
 
-  const uncenteredPath = turtle3d(grammar, stepSize, sentence, startingPoint);
-  return uncenteredPath;
+  return turtle3d(grammar, stepSize, sentence, startingPoint);
 };

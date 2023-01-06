@@ -107,7 +107,7 @@ function main() {
   function render() {
     requestAnimationFrame(render);
     renderer.render(scene, camera);
-    controls.update()
+    controls.update();
   }
   render();
 }
